@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">Diana</string>
+    <string name="app_name">Ugadai_chislo</string>
+    <string name="title">Ugadai_chislo</string>
+    <string name="instruction">Попробуйте угадать число (1–100)</string>
+    <string name="input_label">Введите число</string>
+    <string name="button_check">ПРОВЕРИТЬ</string>
+    <string name="button_retry">СЫГРАТЬ ЕЩЁ РАЗ</string>
+    <string name="too_low">Недолёт 🚫</string>
+    <string name="too_high">Перелёт 🚫</string>
+    <string name="correct">В точку! 🎯</string>
+    <string name="invalid_input">Введите корректное число!</string>
 </resources>
