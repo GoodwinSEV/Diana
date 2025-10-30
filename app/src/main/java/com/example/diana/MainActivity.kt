@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.diana.ui.theme.DianaTheme
+import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,10 +37,9 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GuessNumberGame() {
-    val secretNumber = 67
+    var secretNumber by remember { mutableStateOf(Random.nextInt(1, 101)) }
     var userInput by remember { mutableStateOf("") }
     var message by remember { mutableStateOf("Попробуйте угадать число (1–100)") }
-    var gameFinished by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -72,7 +72,6 @@ fun GuessNumberGame() {
             },
             label = { Text("Введите число") },
             singleLine = true,
-            enabled = !gameFinished,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 16.dp)
@@ -87,19 +86,14 @@ fun GuessNumberGame() {
                 }
 
                 when {
-                    number < secretNumber -> {
-                        message = "Недолёт 🚫"
-                        gameFinished = true
-                    }
-                    number > secretNumber -> {
-                        message = "Перелёт 🚫"
-                        gameFinished = true
-                    }
+                    number < secretNumber -> message = "Недолёт 🚫"
+                    number > secretNumber -> message = "Перелёт 🚫"
                     else -> {
                         message = "В точку! 🎯"
-                        gameFinished = true
+                        secretNumber = Random.nextInt(1, 101)
                     }
                 }
+                userInput = ""
             },
             shape = RoundedCornerShape(12.dp),
             colors = ButtonDefaults.buttonColors(
@@ -108,31 +102,9 @@ fun GuessNumberGame() {
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp),
-            enabled = !gameFinished
+                .height(56.dp)
         ) {
             Text(text = "ПРОВЕРИТЬ", fontSize = 16.sp)
-        }
-
-        if (gameFinished) {
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(
-                onClick = {
-                    userInput = ""
-                    message = "Попробуйте угадать число (1–100)"
-                    gameFinished = false
-                },
-                shape = RoundedCornerShape(12.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFFFC0CB),
-                    contentColor = Color.White
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp)
-            ) {
-                Text(text = "СЫГРАТЬ ЕЩЁ РАЗ", fontSize = 16.sp)
-            }
         }
     }
 }
@@ -146,4 +118,3 @@ fun PreviewGuessNumberGame() {
         }
     }
 }
-
